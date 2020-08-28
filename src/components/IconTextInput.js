@@ -12,8 +12,12 @@ export default class IconTextInput extends React.Component {
           size={35}
           color={this.props.iconProps.color}
         />
-        {/* secureTextEntry => true */}
-        <TextInput style={styles.textInput} />
+        <TextInput
+          style={styles.textInput}
+          secureTextEntry={this.props.secure}
+          placeholder={this.props.placeholder}
+          onChangeText={this.props.onChangeText}
+        />
       </View>
     );
   }
@@ -25,6 +29,9 @@ IconTextInput.defaultProps = {
     color: "gray",
   },
   wrapStyle: {},
+  secure: false,
+  placeholder: "",
+  onChangeText: () => {},
 };
 
 const styles = StyleSheet.create({

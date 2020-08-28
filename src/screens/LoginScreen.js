@@ -4,6 +4,7 @@ import { View, KeyboardAvoidingView, StyleSheet } from "react-native";
 import Header from "../components/Header";
 
 import IconTextInput from "../components/IconTextInput";
+import SimpleButton from "../components/SimpleButton";
 
 export default class LoginScreen extends React.Component {
   render() {
@@ -18,6 +19,7 @@ export default class LoginScreen extends React.Component {
             color: "gray",
           }}
           wrapStyle={{ marginTop: 5, marginBottom: 5 }}
+          placeholder="유저ID"
         />
 
         <IconTextInput
@@ -26,6 +28,17 @@ export default class LoginScreen extends React.Component {
             color: "gray",
           }}
           wrapStyle={{ marginTop: 5, marginBottom: 5 }}
+          secure={true}
+          placeholder="비밀번호"
+        />
+
+        <SimpleButton
+          title="로그인"
+          style={{ width: 300, marginTop: 5, marginBottom: 5 }}
+        />
+        <SimpleButton
+          title="회원가입"
+          style={{ width: 300, marginTop: 5, marginBottom: 5 }}
         />
       </KeyboardAvoidingView>
     );
