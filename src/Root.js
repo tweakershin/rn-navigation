@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { View, Text, StyleSheet } from 'react-native';
-
 import MainTabNavigator from './navigations/MainTabNavigator';
 import AuthStack from './navigations/AuthStack';
 
-// const isLogined = true;
-const isLogined = false;
+const isLogined = true;
+// const isLogined = false;
 
 
 

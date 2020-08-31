@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import DefaultScreen from '../screens/DefaultScreen';
+import RegisterCarScreen from '../screens/RegisterCarScreen';
 
 // 컴포넌트 두 개 반환 (Stack.Navigator, Stack.Screen)
 const Stack = createStackNavigator();
@@ -55,8 +56,6 @@ function MyCarStack({ navigation, ...props }) {
           }
         }}
       />
-
-
       <Stack.Screen
         name="MyCarDetail"
         component={DefaultScreen}
@@ -80,7 +79,7 @@ function MyCarStack({ navigation, ...props }) {
 
       <Stack.Screen
         name="registerCar"
-        component={DefaultScreen}
+        component={RegisterCarScreen}
         options={{
           title: "차 등록",
           // headerLeft: (props) => {
