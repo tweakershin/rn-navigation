@@ -1,8 +1,8 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import DefaultScreen from '../screens/DefaultScreen';
 
 // 컴포넌트 두 개 반환 (Stack.Navigator, Stack.Screen)
@@ -14,12 +14,12 @@ const defaultScreenOptions = {
   headerStyle: {
     backgroundColor: "tomato"
   },
-  headerRight: MyCarHeaderRight
+  // headerRight: MyCarHeaderRight,
+  headerTitleAlign: 'center',
+  headerBackTitleVisible: true
 }
 
 function MyCarHeaderRight({ navigation, ...props }) {
-  console.log("MyCarHeader")
-  console.log(navigation)
   return (
     <TouchableOpacity
       style={{ paddingRight: 15 }}
@@ -39,7 +39,9 @@ function MyCarStack({ navigation, ...props }) {
   return (
     <Stack.Navigator
       initialRouteName="MyCarList"
-      screenOptions={defaultScreenOptions}>
+      screenOptions={defaultScreenOptions}
+      mode="modal"
+    >
 
       <Stack.Screen
         name="MyCarList"
@@ -54,6 +56,7 @@ function MyCarStack({ navigation, ...props }) {
         }}
       />
 
+
       <Stack.Screen
         name="MyCarDetail"
         component={DefaultScreen}
@@ -63,7 +66,15 @@ function MyCarStack({ navigation, ...props }) {
             return (
               <MyCarHeaderRight navigation={navigation} {...props} />
             )
-          }
+          },
+          headerTitle: (props) =>
+            (<Text {...props}>{navigation.getParam('car').modelName}</Text>),
+          // headerLeft: (props) => {
+          //   return (
+          //     <HeaderBackButton />
+          //   )
+          // },
+          headerBackTitleVisible: true
         }}
       />
 
@@ -72,6 +83,12 @@ function MyCarStack({ navigation, ...props }) {
         component={DefaultScreen}
         options={{
           title: "차 등록",
+          // headerLeft: (props) => {
+          //   return (
+          //     <HeaderBackButton {...props} onPress={() => navigation.goBack()} />
+          //   )
+          // },
+          headerBackTitleVisible: true
         }}
       />
 
