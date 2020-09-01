@@ -18,7 +18,6 @@ export default class CarListScreen extends Component {
     this.refreshCar();
   }
   renderCar({ item }) {
-    console.log(this.props.navigation);
     return (
       <CarListItem  {...item} onPress={() => {
         this.props.navigation.push('MyCarDetail', { car: item })

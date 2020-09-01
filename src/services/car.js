@@ -37,10 +37,6 @@ let carList = [
   },
 ];
 
-
-
-
-
 function fetchCarList(start = 0, size = 10) {
   return carList.slice(start, start + size);
 }
@@ -68,4 +64,15 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
   alert("등록되었습니다.")
 }
 
-export { fetchCarList, fetchCarDetail, registerCar };
+async function fetchAuctionList() {
+  const auctionList = carList.filter((item) => {
+    if (item.auctionState === 'bidding') {
+      return true
+    } else {
+      return false
+    }
+  });
+  return auctionList;
+}
+
+export { fetchCarList, fetchCarDetail, registerCar, fetchAuctionList };
