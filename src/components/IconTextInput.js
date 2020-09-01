@@ -13,10 +13,12 @@ export default class IconTextInput extends React.Component {
           color={this.props.iconProps.color}
         />
         <TextInput
+          autoCorrect={false}
           style={styles.textInput}
           secureTextEntry={this.props.secure}
           placeholder={this.props.placeholder}
           onChangeText={this.props.onChangeText}
+          value={this.props.value}
         />
       </View>
     );
@@ -31,7 +33,7 @@ IconTextInput.defaultProps = {
   wrapStyle: {},
   secure: false,
   placeholder: "",
-  onChangeText: () => {},
+  onChangeText: () => { },
 };
 
 const styles = StyleSheet.create({
