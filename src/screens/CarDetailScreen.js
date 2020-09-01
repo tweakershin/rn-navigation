@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
+import { Text, FlatList, StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
 
 import SimpleButton from '../components/SimpleButton';
 import CarInfo from '../components/car/CarInfo';
 import CarStatusInfo from '../components/car/CarStatusInfo';
-import OfferList from '../components/offer/OfferList';
+// import OfferList from '../components/offer/OfferList';
 
 import { fetchCarDetail } from '../services/car';
-
+import OfferListItem from '../components/offer/OfferListItem'
 
 export default class CarDetailScreen extends Component {
   constructor(props) {
@@ -33,6 +33,11 @@ export default class CarDetailScreen extends Component {
     this.setState({ car: car, auctionState: car.auctionState, bidList: car.bidList })
   }
 
+  renderItem({ item }) {
+    return (
+      <OfferListItem {...item} />
+    )
+  }
 
   render() {
     return (
@@ -48,7 +53,19 @@ export default class CarDetailScreen extends Component {
         <CarStatusInfo auctionState={this.state.auctionState} />
         {
           this.state.auctionState === 'bidding' ?
-            (<OfferList bidList={this.state.bidList} />) :
+            (<FlatList
+              data={this.state.bidList}
+              renderItem={this.renderItem.bind(this)}
+              keyExtractor={(item, index) => (index.toString())}
+              ItemSeparatorComponent={
+                () => (<View style={{
+                  width: '100%',
+                  height: StyleSheet.hairlineWidth,
+                  backgroundColor: 'gray',
+
+                }} />)
+              }
+            />) :
             (<SimpleButton title="경매 등록하기." onPress={() => { }} />)
         }
       </ScrollView>
