@@ -17,7 +17,7 @@ export default class AuctionListItem extends React.Component {
     return (
       <TouchableOpacity
         onPress={this.props.onPress}
-        style={{ height: 90, flexDirection: 'row', alignItems: 'center' }}
+        style={{ height: 90, flexDirection: 'row', flex: 1, alignItems: 'center' }}
       >
         <Image
           source={{ uri: this.props.image }}
@@ -28,32 +28,46 @@ export default class AuctionListItem extends React.Component {
             resizeMode: 'contain'
           }} />
 
-        <View style={{ flexDirection: 'column' }}>
-          <Text style={{ fontSize: 22, color: '#333', fontWeight: 'bold' }}>
-            {this.props.modelName}
-          </Text>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={{ fontSize: 22, color: '#333', fontWeight: 'bold' }}>
+              {this.props.modelName}
+            </Text>
 
-          <View style={{ flexDirection: 'row' }}>
-            <Ionicons name="ios-calendar" size={15} style={{ marginRight: 6 }} color='#666' />
-            <Text
-              style={{
+            <View style={{ flexDirection: 'row' }}>
+              <Ionicons name="ios-calendar" size={15} style={{ marginRight: 6 }} color='#666' />
+              <Text
+                style={{
+                  marginRight: 6,
+                  fontSize: 12,
+                  color: '#666'
+                }}>
+                {this.props.manufacturer}
+              </Text>
+              <Text style={{
                 marginRight: 6,
                 fontSize: 12,
                 color: '#666'
               }}>
-              {this.props.manufacturer}
-            </Text>
-            <Text style={{
-              marginRight: 6,
-              fontSize: 12,
-              color: '#666'
-            }}>
-              {this.props.year}
-            </Text>
+                {this.props.year}
+              </Text>
+            </View>
+
           </View>
 
-        </View>
 
+          <Text style={{
+            flexGrow: 0.5,
+            textAlign: 'right',
+            fontSize: 20,
+            fontWeight: '400'
+
+          }}>$ 3,000</Text>
+        </View>
       </TouchableOpacity>
     )
   }
