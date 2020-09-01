@@ -18,8 +18,11 @@ export default class CarListScreen extends Component {
     this.refreshCar();
   }
   renderCar({ item }) {
+    console.log(this.props.navigation);
     return (
-      <CarListItem  {...item} />
+      <CarListItem  {...item} onPress={() => {
+        this.props.navigation.push('MyCarDetail', { car: item })
+      }} />
     );
   }
 
@@ -29,14 +32,15 @@ export default class CarListScreen extends Component {
   }
 
   render() {
+
     return (
       <View style={styles.container} >
         <FlatList
           data={this.state.carList}
-          renderItem={this.renderCar}
+          renderItem={this.renderCar.bind(this)}
           refreshing={this.state.refreshing}
           onRefresh={this.refreshCar.bind(this)}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.vin}
           ItemSeparatorComponent={(props) => {
             return (
               <View
