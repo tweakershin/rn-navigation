@@ -13,6 +13,7 @@ export default class IconTextInput extends React.Component {
           color={this.props.iconProps.color}
         />
         <TextInput
+          autoCapitalize={this.props.autoCapitalize || "none"}
           autoCorrect={false}
           style={styles.textInput}
           secureTextEntry={this.props.secure}

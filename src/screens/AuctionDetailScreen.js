@@ -23,22 +23,18 @@ export default class AuctionDetailScreen extends Component {
       refreshing: false,
     }
   }
-
   componentDidMount() {
     this.refreshData();
   }
-
   refreshData() {
     const auction = fetchCarDetail(this.state.auction.id);
     this.setState({ auction: auction, auctionState: auction.auctionState, bidList: auction.bidList })
   }
-
   renderItem({ item }) {
     return (
       <OfferListItem {...item} />
     )
   }
-
   render() {
     return (
       <ScrollView

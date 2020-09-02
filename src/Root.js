@@ -3,7 +3,7 @@ import React from 'react';
 import MainTabNavigator from './navigations/MainTabNavigator';
 import AuthStack from './navigations/AuthStack';
 
-const isLogined = true;
+// const isLogined = true;
 // const isLogined = false;
 
 
@@ -17,10 +17,19 @@ const isLogined = true;
 // }
 
 export default class Root extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogined: false
+    }
+  }
+
+
+
   render() {
     return (
       <React.Fragment>
-        {isLogined ? (<MainTabNavigator />) : (<AuthStack />)}
+        {this.state.isLogined ? (<MainTabNavigator />) : (<AuthStack />)}
       </React.Fragment>
     )
   }

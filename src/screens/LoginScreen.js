@@ -2,11 +2,19 @@ import React from "react";
 import { View, KeyboardAvoidingView, StyleSheet } from "react-native";
 
 import Header from "../components/Header";
-
 import IconTextInput from "../components/IconTextInput";
 import SimpleButton from "../components/SimpleButton";
 
+import { registerUser } from '../services/auth'
+
 export default class LoginScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -18,6 +26,9 @@ export default class LoginScreen extends React.Component {
             name: "ios-person",
             color: "gray",
           }}
+          autoCapitalize={"none"}
+          value={this.state.email}
+          onChangeText={(text) => this.setState({ email: text })}
           wrapStyle={{ marginTop: 5, marginBottom: 5 }}
           placeholder="유저ID"
         />
@@ -27,6 +38,9 @@ export default class LoginScreen extends React.Component {
             name: "ios-lock",
             color: "gray",
           }}
+          autoCapitalize={"none"}
+          value={this.state.password}
+          onChangeText={(text) => this.setState({ password: text })}
           wrapStyle={{ marginTop: 5, marginBottom: 5 }}
           secure={true}
           placeholder="비밀번호"
@@ -39,6 +53,11 @@ export default class LoginScreen extends React.Component {
         <SimpleButton
           title="회원가입"
           style={{ width: 300, marginTop: 5, marginBottom: 5 }}
+          onPress={async () => {
+            const data = await registerUser(this.state.email, this.state.password);
+            console.log(data);
+            alert("회원가입이 완료되었습니다.")
+          }}
         />
       </KeyboardAvoidingView>
     );
