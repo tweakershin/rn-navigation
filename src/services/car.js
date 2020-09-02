@@ -75,4 +75,20 @@ async function fetchAuctionList() {
   return auctionList;
 }
 
-export { fetchCarList, fetchCarDetail, registerCar, fetchAuctionList };
+async function registerAuction(carId, minPrice, description) {
+  carList = carList.map((item) => {
+    if (item.id === carId && item.auctionState !== 'bidding') {
+      return {
+        ...item,
+        auctionState: 'bidding',
+        minPrice: minPrice,
+        bid_desc: description
+      }
+    }
+    else {
+      return item
+    }
+  });
+}
+
+export { fetchCarList, fetchCarDetail, registerCar, fetchAuctionList, registerAuction };

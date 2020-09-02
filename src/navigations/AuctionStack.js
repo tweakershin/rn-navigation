@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import DefaultScreen from '../screens/DefaultScreen';
 import AuctionListScreen from '../screens/AuctionListScreen';
+import AuctionDetailScreen from '../screens/AuctionDetailScreen';
 
 const Stack = createStackNavigator();
 const defaultScreenOptions = {
@@ -29,7 +30,7 @@ function AuctionStack(props) {
       />
       <Stack.Screen
         name="AuctionDetail"
-        component={DefaultScreen}
+        component={AuctionDetailScreen}
         options={{
           title: '경매 상품'
         }}

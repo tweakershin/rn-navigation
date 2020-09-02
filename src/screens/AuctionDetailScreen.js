@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import { Text, FlatList, StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
 
-import SimpleButton from '../components/SimpleButton';
 import CarInfo from '../components/car/CarInfo';
 import CarStatusInfo from '../components/car/CarStatusInfo';
 // import OfferList from '../components/offer/OfferList';
 
 import { fetchCarDetail } from '../services/car';
 import OfferListItem from '../components/offer/OfferListItem'
+import SimpleButton from '../components/SimpleButton';
 
-export default class CarDetailScreen extends Component {
+export default class AuctionDetailScreen extends Component {
   constructor(props) {
     super(props);
 
-    const car = this.props.route.params.car
+    const auction = this.props.route.params.auction;
     // console.log("----")
     // console.log(this.props.route.params)
     this.state = {
-      car: car,
+      auction: auction,
       auctionState: 'none',
       bidList: [],
       refreshing: false,
@@ -29,8 +29,8 @@ export default class CarDetailScreen extends Component {
   }
 
   refreshData() {
-    const car = fetchCarDetail(this.state.car.id);
-    this.setState({ car: car, auctionState: car.auctionState, bidList: car.bidList })
+    const auction = fetchCarDetail(this.state.auction.id);
+    this.setState({ auction: auction, auctionState: auction.auctionState, bidList: auction.bidList })
   }
 
   renderItem({ item }) {
@@ -49,8 +49,12 @@ export default class CarDetailScreen extends Component {
           />
         }
       >
-        <CarInfo {...this.state.car} />
+        <CarInfo {...this.state.auction} />
+
         <CarStatusInfo auctionState={this.state.auctionState} />
+
+        <SimpleButton title="경매 입찰" onPress={() => { }} />
+
         {
           this.state.auctionState === 'bidding' ?
             (<FlatList
@@ -72,6 +76,8 @@ export default class CarDetailScreen extends Component {
               })
             }} />)
         }
+
+
       </ScrollView>
     )
   }

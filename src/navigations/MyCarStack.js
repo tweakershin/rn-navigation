@@ -8,6 +8,7 @@ import RegisterCarScreen from '../screens/RegisterCarScreen';
 import CarListScreen from '../screens/CarListScreen';
 
 import CarDetailScreen from '../screens/CarDetailScreen';
+import AuctionRegisterScreen from '../screens/AuctionRegisterScreen';
 
 // 컴포넌트 두 개 반환 (Stack.Navigator, Stack.Screen)
 const Stack = createStackNavigator();
@@ -92,6 +93,19 @@ function MyCarStack({ navigation, ...props }) {
           // },
           headerBackTitleVisible: true
         }}
+      />
+
+      <Stack.Screen
+        name="auctionRegister"
+        component={AuctionRegisterScreen}
+        options={
+          ({ route }) => {
+            const modelName = route.params.car.modelName;
+            return {
+              title: `${modelName} 등록`
+            }
+          }
+        }
       />
 
     </Stack.Navigator>
