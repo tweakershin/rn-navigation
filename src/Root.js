@@ -4,32 +4,33 @@ import MainTabNavigator from './navigations/MainTabNavigator';
 import AuthStack from './navigations/AuthStack';
 
 import AuthToken from './utils/AuthToken';
-
-// const isLogined = true;
-// const isLogined = false;
-
-
-
-// export default function Root(props) {
-//   return (
-//     <React.Fragment>
-//       {isLogined ? (<MainTabNavigator />) : (<AuthStack />)}
-//     </React.Fragment>
-//   )
-// }
-
-export const AuthContext = React.createContext({
-  token: '',
-  isLogiend: false,
-});
+import { AuthContext } from './contexts/auth';
 
 export default class Root extends React.Component {
   constructor(props) {
     super(props);
+
+    this.login = (token) => {
+      this.setState({
+        token: token,
+        isLogined: true
+      })
+    }
+
+    this.logout = () => {
+      this.setState({
+        token: null,
+        isLogined: false
+      })
+    }
+
     this.state = {
       isLogined: false,
-      token: null
+      token: null,
+      logout: this.logout,
+      login: this.login
     }
+
   }
 
   async loginCheck() {
@@ -47,12 +48,12 @@ export default class Root extends React.Component {
     }
   }
 
-  login(token) {
-    this.setState({ isLogined: true, token: token })
-  }
-  logout() {
-    this.setState({ isLogined: false, token: null })
-  }
+  // login(token) {
+  //   this.setState({ isLogined: true, token: token })
+  // }
+  // logout() {
+  //   this.setState({ isLogined: false, token: null })
+  // }
 
   componentDidMount() {
     this.loginCheck();
@@ -61,9 +62,13 @@ export default class Root extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.isLogined ?
-          (<MainTabNavigator login={this.login.bind(this)} logout={this.logout.bind(this)} />) :
-          (<AuthStack login={this.login.bind(this)} logout={this.logout.bind(this)} />)}
+
+        <AuthContext.Provider value={this.state}>
+          {this.state.isLogined ?
+            (<MainTabNavigator />) :
+            (<AuthStack />)}
+        </AuthContext.Provider>
+
       </React.Fragment>
     )
   }
