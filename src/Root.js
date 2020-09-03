@@ -3,6 +3,8 @@ import React from 'react';
 import MainTabNavigator from './navigations/MainTabNavigator';
 import AuthStack from './navigations/AuthStack';
 
+import AuthToken from './utils/AuthToken';
+
 // const isLogined = true;
 // const isLogined = false;
 
@@ -16,20 +18,52 @@ import AuthStack from './navigations/AuthStack';
 //   )
 // }
 
+export const AuthContext = React.createContext({
+  token: '',
+  isLogiend: false,
+});
+
 export default class Root extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogined: false
+      isLogined: false,
+      token: null
     }
   }
 
+  async loginCheck() {
+    const token = await AuthToken.get();
+    if (token) {
+      this.setState({
+        isLogined: true,
+        token: token
+      })
+    } else {
+      this.setState({
+        isLogined: false,
+        token: null
+      })
+    }
+  }
 
+  login(token) {
+    this.setState({ isLogined: true, token: token })
+  }
+  logout() {
+    this.setState({ isLogined: false, token: null })
+  }
+
+  componentDidMount() {
+    this.loginCheck();
+  }
 
   render() {
     return (
       <React.Fragment>
-        {this.state.isLogined ? (<MainTabNavigator />) : (<AuthStack />)}
+        {this.state.isLogined ?
+          (<MainTabNavigator login={this.login.bind(this)} logout={this.logout.bind(this)} />) :
+          (<AuthStack login={this.login.bind(this)} logout={this.logout.bind(this)} />)}
       </React.Fragment>
     )
   }

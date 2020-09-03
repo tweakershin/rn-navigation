@@ -5,7 +5,8 @@ import Header from "../components/Header";
 import IconTextInput from "../components/IconTextInput";
 import SimpleButton from "../components/SimpleButton";
 
-import { registerUser } from '../services/auth'
+import { registerUser, loginUser } from '../services/auth';
+import AuthToken from '../utils/AuthToken';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -49,6 +50,18 @@ export default class LoginScreen extends React.Component {
         <SimpleButton
           title="로그인"
           style={{ width: 300, marginTop: 5, marginBottom: 5 }}
+          onPress={async () => {
+            const data = await loginUser(this.state.email, this.state.password)
+            // console.log(data);
+            if (data.result === 'success') {
+              AuthToken.save(data.token);
+            }
+            else if (data.message) {
+              alert(data.message);
+            }
+
+          }}
+        // login구현.
         />
         <SimpleButton
           title="회원가입"

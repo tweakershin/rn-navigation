@@ -17,7 +17,6 @@ async function registerUser(email, password) {
     });
     // console.log(resp);
     const data = await resp.json();
-    console.log(JSON.stringify(data))
     return data
   }
   catch (err) {
@@ -25,9 +24,31 @@ async function registerUser(email, password) {
     console.log(JSON.stringify(err))
     return err;
   }
-
   // console.log(data);
-
 }
 
-export { registerUser }
+async function loginUser(email, password) {
+  const url = `${BASE_API_URL}/auth/login`;
+
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    })
+    return await resp.json();
+  }
+  catch (err) {
+    console.log("Error발생")
+    console.error(err)
+    return err
+  }
+}
+
+export { registerUser, loginUser }
