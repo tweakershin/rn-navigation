@@ -5,7 +5,7 @@ import CarInfo from '../components/car/CarInfo';
 import CarStatusInfo from '../components/car/CarStatusInfo';
 // import OfferList from '../components/offer/OfferList';
 
-import { fetchCarDetail } from '../services/car';
+import { fetchCarDetail, getAuctionDetail } from '../services/car';
 import OfferListItem from '../components/offer/OfferListItem'
 import SimpleButton from '../components/SimpleButton';
 

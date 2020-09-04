@@ -20,7 +20,11 @@ export default class AuctionListItem extends React.Component {
         style={{ height: 90, flexDirection: 'row', flex: 1, alignItems: 'center' }}
       >
         <Image
-          source={{ uri: this.props.image }}
+          source={
+            this.props.image ?
+              { uri: this.props.image } :
+              require('../../../assets/splash.png')
+          }
           style={{
             height: 90,
             width: 90,
@@ -66,7 +70,7 @@ export default class AuctionListItem extends React.Component {
             fontSize: 20,
             fontWeight: '400'
 
-          }}>$ 3,000</Text>
+          }}>$ {this.props.displayPrice}</Text>
         </View>
       </TouchableOpacity>
     )

@@ -18,9 +18,12 @@ export default class AuctionListScreen extends Component {
   }
   renderAuction({ item }) {
     return (
-      <AuctionListItem  {...item} onPress={() => {
-        this.props.navigation.push('AuctionDetail', { auction: item })
-      }} />
+      <AuctionListItem
+        {...item.car}
+        displayPrice={item.minPrice}
+        onPress={() => {
+          this.props.navigation.push('AuctionDetail', { auction: item })
+        }} />
     );
   }
 

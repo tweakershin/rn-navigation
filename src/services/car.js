@@ -87,22 +87,24 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
   const url = `${BASE_API_URL}/car`
   const data = new FormData();
 
-  const file = Platform.OS === 'android' ?
-    {
-      // npm install mime (mime.getType) // 추후에 변경
-      type: 'image/jpeg',
-      uri: image.uri.replace('file:/', 'file:///'),
-      name: 'car'
-    } :
-    {
-      type: image.type,
-      uri: image.uri,
-      name: 'car'
-    }
+
 
   // data.append("carImage", file);
-
-  // data.append("carImage", image.uri);
+  if (image) {
+    const file = Platform.OS === 'android' ?
+      {
+        // npm install mime (mime.getType) // 추후에 변경
+        type: 'image/jpeg',
+        uri: image.uri.replace('file:/', 'file:///'),
+        name: 'car'
+      } :
+      {
+        type: image.type,
+        uri: image.uri,
+        name: 'car'
+      }
+    data.append("carImage", file);
+  }
   data.append("modelName", modelName);
   data.append('year', year);
   data.append('manufacturer', manufacturer);
@@ -151,30 +153,54 @@ async function getAuctionDetail(auctionId) {
 }
 
 async function fetchAuctionList() {
-  const auctionList = carList.filter((item) => {
-    if (item.auctionState === 'bidding') {
-      return true
-    } else {
-      return false
+  const url = `${BASE_API_URL}/auction`;
+  const token = await AuthToken.get();
+
+  try {
+    const auctionList = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    return await auctionList.json();
+
+  } catch (err) {
+    console.error(err);
+    return {
+      result: 'fail',
+      message: "Error"
     }
-  });
-  return auctionList;
+  }
 }
 
 async function registerAuction(carId, minPrice, description) {
-  carList = carList.map((item) => {
-    if (item.id === carId && item.auctionState !== 'bidding') {
-      return {
-        ...item,
-        auctionState: 'bidding',
-        minPrice: minPrice,
-        bid_desc: description
-      }
-    }
-    else {
-      return item
-    }
-  });
+  const url = `${BASE_API_URL}/auction`;
+  const token = await AuthToken.get();
+
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        carId: carId,
+        minPrice: minPrice
+      })
+    })
+
+    const data = await resp.json()
+    return data;
+  } catch (err) {
+    console.error(err);
+    return err
+  }
+
+
 }
 
 export { fetchCarList, fetchCarDetail, registerCar, fetchAuctionList, registerAuction, getAuctionDetail };
