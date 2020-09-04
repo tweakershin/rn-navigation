@@ -37,8 +37,20 @@ let carList = [
   },
 ];
 
-function fetchCarList(start = 0, size = 10) {
-  return carList.slice(start, start + size);
+// get 요청 (server Router - get을 받을준비)
+async function fetchCarList(start = 0, size = 10) {
+  const url = `${BASE_API_URL}/car`;
+  const resp = await fetch(url, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    }
+  })
+
+  const data = await resp.json()
+  return data;
+  // return carList.slice(start, start + size);
 }
 
 function fetchCarDetail(carId) {
@@ -63,7 +75,7 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
 
   const file = Platform.OS === 'android' ?
     {
-      // npm install mime (mime.getMime) // 추후에 변경
+      // npm install mime (mime.getType) // 추후에 변경
       type: 'image/jpeg',
       uri: image.uri.replace('file:/', 'file:///'),
       name: 'car'
@@ -74,7 +86,7 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
       name: 'car'
     }
 
-  data.append("carImage", file);
+  // data.append("carImage", file);
 
   // data.append("carImage", image.uri);
   data.append("modelName", modelName);
