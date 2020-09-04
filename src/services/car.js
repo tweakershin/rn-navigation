@@ -65,7 +65,7 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
   data.append("carImage", {
     type: image.type,
     uri: image.uri,
-    name: 'car.jpg'
+    name: 'car'
   });
 
   // data.append("carImage", image.uri);
