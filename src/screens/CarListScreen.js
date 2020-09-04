@@ -26,7 +26,8 @@ export default class CarListScreen extends Component {
   }
 
   async refreshCar() {
-    const carList = fetchCarList();
+    const carList = await fetchCarList();
+    console.log(carList)
     this.setState({ carList });
   }
 

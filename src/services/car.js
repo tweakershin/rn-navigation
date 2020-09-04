@@ -37,9 +37,18 @@ let carList = [
   },
 ];
 
+import { BASE_API_URL } from './base';
+
+import AuthToken from '../utils/AuthToken';
+import { Platform } from 'react-native'
+
 // get 요청 (server Router - get을 받을준비)
 async function fetchCarList(start = 0, size = 10) {
   const url = `${BASE_API_URL}/car`;
+
+  const token = await AuthToken.get();
+  console.log(token)
+
   const resp = await fetch(url, {
     method: "GET",
     headers: {
@@ -63,10 +72,7 @@ function fetchCarDetail(carId) {
     return null;
   }
 }
-import { BASE_API_URL } from './base';
 
-import AuthToken from '../utils/AuthToken';
-import { Platform } from 'react-native'
 
 async function registerCar(modelName, year, manufacturer, vin, image) {
   const token = await AuthToken.get();

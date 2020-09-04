@@ -19,7 +19,9 @@ export default class CarListItem extends React.Component {
         style={{ height: 90, flexDirection: 'row', alignItems: 'center' }}
       >
         <Image
-          source={{ uri: this.props.image }}
+          source={
+            this.props.image ? { uri: this.props.image } : {}
+          }
           style={{
             height: 90,
             width: 90,
