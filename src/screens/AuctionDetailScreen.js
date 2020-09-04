@@ -26,10 +26,16 @@ export default class AuctionDetailScreen extends Component {
   componentDidMount() {
     this.refreshData();
   }
-  refreshData() {
-    const auction = fetchCarDetail(this.state.auction.id);
-    this.setState({ auction: auction, auctionState: auction.auctionState, bidList: auction.bidList })
+  async refreshData() {
+    const auction = await getAuctionDetail(this.state.auction.id);
+    // this.getOfferList(auction.id)
+    const bidList = auction.Users.map((elem) => {
+      return elem.AuctionBidding
+    })
+    this.setState({ auction: auction, auctionState: 'bidding', bidList: bidList })
   }
+
+
   renderItem({ item }) {
     return (
       <OfferListItem {...item} />
