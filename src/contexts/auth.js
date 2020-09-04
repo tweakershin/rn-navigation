@@ -6,3 +6,7 @@ export const AuthContext = React.createContext({
   login: () => { },
   logout: () => { }
 });
+
+
+// 상태관리(Store) [Redux vs Mobx]
+//  

@@ -62,13 +62,11 @@ export default class Root extends React.Component {
   render() {
     return (
       <React.Fragment>
-
         <AuthContext.Provider value={this.state}>
           {this.state.isLogined ?
             (<MainTabNavigator />) :
             (<AuthStack />)}
         </AuthContext.Provider>
-
       </React.Fragment>
     )
   }

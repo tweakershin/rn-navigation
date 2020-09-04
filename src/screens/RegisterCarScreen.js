@@ -36,6 +36,7 @@ export default class RegisterCarScreen extends Component {
     this.setState({ carImage: picture });
   }
 
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -85,8 +86,9 @@ export default class RegisterCarScreen extends Component {
         <SimpleButton title="등록" onPress={
           async () => {
             const { modelName, year, manufacturer, vin, carImage } = this.state;
-            console.log(carImage)
-            await registerCar(modelName, year, manufacturer, vin, carImage);
+
+            const data = await registerCar(modelName, year, manufacturer, vin, carImage);
+            console.log(data);
             this.props.navigation.goBack();
           }
         } />
