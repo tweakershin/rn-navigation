@@ -6,7 +6,7 @@ import CarInfo from '../components/car/CarInfo';
 import CarStatusInfo from '../components/car/CarStatusInfo';
 // import OfferList from '../components/offer/OfferList';
 
-import { fetchCarDetail } from '../services/car';
+import { fetchCarDetail, getAuctionDetail } from '../services/car';
 import OfferListItem from '../components/offer/OfferListItem'
 
 export default class CarDetailScreen extends Component {
@@ -28,9 +28,28 @@ export default class CarDetailScreen extends Component {
     this.refreshData();
   }
 
-  refreshData() {
-    const car = fetchCarDetail(this.state.car.id);
-    this.setState({ car: car, auctionState: car.auctionState, bidList: car.bidList })
+  async refreshData() {
+    const car = await fetchCarDetail(this.state.car.id);
+    console.log(car);
+
+    let auctionState;
+    if (car.inAuction) {
+      auctionState = 'bidding'
+    } else {
+      auctionState = 'none'
+    }
+
+    if (car.inAuction) {
+      this.getBidList(car.inAuction.id)
+    }
+
+    this.setState({ car: car, auctionState: auctionState });
+
+  }
+
+  async getBidList(auctionId) {
+    const bidList = await getAuctionDetail(auctionId);
+    this.setState({ bidList: bidList })
   }
 
   renderItem({ item }) {

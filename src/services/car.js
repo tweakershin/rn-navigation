@@ -62,14 +62,22 @@ async function fetchCarList(start = 0, size = 10) {
   // return carList.slice(start, start + size);
 }
 
-function fetchCarDetail(carId) {
-  const car = carList.filter((car) => {
-    return car.id === carId;
-  });
-  if (car) {
-    return car[0];
-  } else {
-    return null;
+async function fetchCarDetail(carId) {
+  const url = `${BASE_API_URL}/car/${carId}`;
+  const token = await AuthToken.get();
+  try {
+    const resp = await fetch(url, {
+      method: 'GET',
+      headers: {
+        "Content-Type": 'application/json',
+        "Authorization": `Bearer ${token}`
+      }
+    })
+
+    const data = await resp.json();
+    return data;
+  } catch (err) {
+    return err;
   }
 }
 
@@ -116,6 +124,32 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
   }
 }
 
+// Define Auction API 
+async function getAuctionDetail(auctionId) {
+  const url = `${BASE_API_URL}/auction/${auctionId}`;
+  const token = await AuthToken.get();
+
+  try {
+    const auctionDetail = await fetch(url, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+
+    const data = await auctionDetail.json();
+    return data
+  }
+  catch (err) {
+    console.error(err);
+    return {
+      result: 'fail',
+      message: "Error"
+    }
+  }
+}
+
 async function fetchAuctionList() {
   const auctionList = carList.filter((item) => {
     if (item.auctionState === 'bidding') {
@@ -143,4 +177,4 @@ async function registerAuction(carId, minPrice, description) {
   });
 }
 
-export { fetchCarList, fetchCarDetail, registerCar, fetchAuctionList, registerAuction };
+export { fetchCarList, fetchCarDetail, registerCar, fetchAuctionList, registerAuction, getAuctionDetail };

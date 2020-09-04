@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+import DefaultImage from '../../../assets/favicon.png'
 
 export default class CarInfo extends Component {
   static defaultProps = {
@@ -16,7 +17,12 @@ export default class CarInfo extends Component {
     return (
       <View style={styles.container} >
         <Image
-          source={{ uri: this.props.image }}
+          source={
+            this.props.image ?
+              { uri: this.props.image } :
+              DefaultImage
+
+          }
           style={styles.carImage} />
 
         <View style={styles.descWrap}>
