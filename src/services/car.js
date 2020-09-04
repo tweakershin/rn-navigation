@@ -58,23 +58,29 @@ import { Platform } from 'react-native'
 
 async function registerCar(modelName, year, manufacturer, vin, image) {
   const token = await AuthToken.get();
-
   const url = `${BASE_API_URL}/car`
   const data = new FormData();
 
-  data.append("carImage", {
-    type: image.type,
-    uri: image.uri,
-    name: 'car'
-  });
+  const file = Platform.OS === 'android' ?
+    {
+      // npm install mime (mime.getMime) // 추후에 변경
+      type: 'image/jpeg',
+      uri: image.uri.replace('file:/', 'file:///'),
+      name: 'car'
+    } :
+    {
+      type: image.type,
+      uri: image.uri,
+      name: 'car'
+    }
+
+  data.append("carImage", file);
 
   // data.append("carImage", image.uri);
   data.append("modelName", modelName);
   data.append('year', year);
   data.append('manufacturer', manufacturer);
   data.append('vin', vin);
-  console.log(token)
-
   try {
     const resp = await fetch(url, {
       method: 'POST',
@@ -84,9 +90,7 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
       },
       body: data
     })
-
     const resultData = await resp.json();
-
     return resultData;
   } catch (err) {
     console.log(err);
